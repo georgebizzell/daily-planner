@@ -2,7 +2,7 @@
 
 ## Deployment
 
-URL: 
+URL: https://georgebizzell.github.io/daily-planner/
 
 Github Repo: https://github.com/georgebizzell/daily-planner
 
