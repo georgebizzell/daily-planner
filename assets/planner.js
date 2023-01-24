@@ -12,7 +12,7 @@ const timeNow = moment().hour();
 $("#currentDay").text(today.format("dddd, Do MMMM YYYY"));
 
 // Working hours array - this could be done programmatically
-const workDay = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+const workDay = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 
 
 // Create prototype time object with text and hour
@@ -23,6 +23,9 @@ const time = {
 
 
 // Use working hours array to create an array of times with the text to be displayed and the hour as a time datatype so it can be compared against the time now()
+
+// I think the 'Array.' is working as a Constractor function here.
+
 const workHours = Array.from(workDay, i => {
   
   const text = moment().hour(i).format("h:00 A");
@@ -40,8 +43,10 @@ console.log(workHours);
 
 function hourColour(timeSlot) {
 
+  // Check hour vs. current time
   var timeCheck = timeNow - timeSlot.hour.hour();
 
+  // Switch clause to change the colour of each hour depending on the current time
   switch(true) {
     case timeCheck === 0:
       i = "present";
@@ -59,37 +64,31 @@ function hourColour(timeSlot) {
   console.log(i);
   
   return i;
-  //if timeNow === timeSlot.hour ? "bg-red-600" : timeSlot.hour < timeNow ? "bg-gray-300" : "bg-green-200";
+  
 }
 
 workHours.forEach((hour) => {
   const grid = $(
-    `<form data-name="${hour.text}" class="row grid-cols-12  border-gray-500 "></form>.`
+    `<form data-name="${hour.text}" class="row justify-content-md-center "></form>.`
   );
 
   const time = $(
-    `<div class="flex items-center justify-center my-auto col-md-2 h-16">${hour.text}</div>`
+    `<div class="time-block row col-2 align-items-center">${hour.text}</div>`
   );
 
   const textArea = $(
-    `<textarea name="${hour.text}" maxLength="50" style="resize: none; overflow: hidden;" class="col-md-8 h-16 p-6 ${hourColour(hour)}">${localStorage.getItem(hour.text) || ""}</textarea>`
+    `<textarea id="${hour.text}" class="textarea col-8 row ${hourColour(hour)}"> ${localStorage.getItem(hour.text) || ""}</textarea>`
   );
-
-  textArea.keydown((e) => {
-    if (e.keyCode == 13 && !e.shiftKey) {
-      e.preventDefault();
-      return false;
-    }
-  });
 
   const saveButton = $(
-    `<button type="submit" class="col-md-2 h-16 bg-indigo-500 text-white font-bold hover:bg-indigo-400 transition duration-500 ease-in-out"><i class="fas fa-save text-xl"></i></button>`
+    `<button type="submit" class="saveBtn col-1"><i class="fas fa-save"></i></button>`
   );
 
+  
   grid.submit((e) => {
     e.preventDefault();
 
-    const value = $(`textarea[name="${hour.text}"]`).val();
+    const value = $(`textarea[id="${hour.text}"]`).val();
 
     localStorage.setItem(hour.text, value);
   });
