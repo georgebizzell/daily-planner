@@ -2,6 +2,9 @@
 
 ## Deployment
 
+URL: 
+
+Github Repo: https://github.com/georgebizzell/daily-planner
 
 
 ## Your Task
